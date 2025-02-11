@@ -380,7 +380,7 @@ impl ExchangeClient {
         order: ClientOrderRequest,
         wallet: Option<&LocalWallet>,
     ) -> Result<ExchangeResponseStatus> {
-        self.bulk_order(vec![order], wallet).await
+        self.bulk_order(vec![order], wallet, None).await
     }
 
     pub async fn order_with_builder(
@@ -397,6 +397,7 @@ impl ExchangeClient {
         &self,
         orders: Vec<ClientOrderRequest>,
         wallet: Option<&LocalWallet>,
+        coin_to_asset: Option<HashMap<String, u32>>,
     ) -> Result<ExchangeResponseStatus> {
         let wallet = wallet.unwrap_or(&self.wallet);
         let timestamp = next_nonce();
@@ -404,7 +405,11 @@ impl ExchangeClient {
         let mut transformed_orders = Vec::new();
 
         for order in orders {
-            transformed_orders.push(order.convert(&self.coin_to_asset)?);
+            if let Some(coin_to_asset) = coin_to_asset.as_ref() {
+                transformed_orders.push(order.convert(&coin_to_asset)?);
+            } else {
+                transformed_orders.push(order.convert(&self.coin_to_asset)?);
+            }
         }
 
         let action = Actions::Order(BulkOrder {
