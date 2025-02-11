@@ -108,11 +108,6 @@ impl ExchangeClient {
             coin_to_asset.insert(asset.name.clone(), asset_ind as u32);
         }
 
-        coin_to_asset = info
-            .spot_meta()
-            .await?
-            .add_pair_and_name_to_index_map(coin_to_asset);
-
         Ok(ExchangeClient {
             wallet,
             meta,
