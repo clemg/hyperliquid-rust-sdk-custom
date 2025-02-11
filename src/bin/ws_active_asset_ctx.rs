@@ -1,4 +1,4 @@
-use hyperliquid_rust_sdk::{BaseUrl, InfoClient, Message, Subscription};
+use hyperliquid_rust_sdk_custom::{BaseUrl, InfoClient, Message, Subscription};
 use log::info;
 use tokio::{
     spawn,
