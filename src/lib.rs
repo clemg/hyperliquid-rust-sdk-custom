@@ -5,7 +5,7 @@ mod exchange;
 mod helpers;
 mod info;
 mod market_maker;
-mod meta;
+pub mod meta;
 mod prelude;
 mod proxy_digest;
 mod req;
